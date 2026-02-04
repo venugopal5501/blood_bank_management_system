@@ -3,6 +3,8 @@ import Router from "vue-router";
 import Login from "@/components/Login.vue";
 import Dashboard from "@/components/UserDashboard.vue";
 import { getUser } from "@/services/auth";
+import Register from "@/components/RegistrationPage.vue"
+import UpdateDonarDetails from "@/components/UpdateDonarDetails.vue"
 
 Vue.use(Router);
 
@@ -15,6 +17,15 @@ const router = new Router({
       path: "/dashboard",
       component: Dashboard,
       meta: { requiresAuth: true }
+    },
+    {
+        path: "/register",
+        component: Register
+    },
+    {
+        path: "/donars",
+        component: UpdateDonarDetails,
+        
     }
   ]
 });

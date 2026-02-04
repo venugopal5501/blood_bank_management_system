@@ -23,3 +23,31 @@ export function getUser() {
     return JSON.parse(atob(token));
 
 }
+
+export async function register(username, password) {
+    const exists = await api.get(`users?username=${username}`);
+    if(exists.data.length > 0) {
+        throw new Error("User already exists");
+    }
+
+    const response = await api.post(`users`,{
+        username,
+        password,
+        role: "user"
+    });
+
+    return response.data;
+}
+
+
+export async function registerDonar(formData) {
+    const response = await api.post(`registeredDonars`,{
+        ...formData,
+    });
+    return response.data;
+}
+
+export async function fetchAllDonarDetails() {
+    const response = await api.get(`registeredDonars`);
+    return response.data;
+}

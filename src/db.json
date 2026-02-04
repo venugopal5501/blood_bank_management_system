@@ -1,19 +1,52 @@
 {
   "users": [
     {
-      "id": 1,
+      "id": "1",
       "username": "admin",
       "password": "admin123",
       "role": "Admin"
     },
     {
-      "id": 2,
+      "id": "2",
       "username": "user",
       "password": "user123",
       "role": "User"
+    },
+    {
+      "id": "80af",
+      "username": "venugopal.01",
+      "password": "Venugopal@123",
+      "role": "user"
     }
   ],
   "posts": [
-    { "id": 1, "title": "First Post", "content": "Hello World!" }
+    {
+      "id": "1",
+      "title": "First Post",
+      "content": "Hello World!"
+    }
+  ],
+  "registeredDonars": [
+    {
+      "id": "f6b6",
+      "firstName": "venugopal",
+      "lastName": "v",
+      "email": "venugopall.venast@digitalsoftwareinc.in",
+      "phone": "1234",
+      "dob": "2003-01-04",
+      "gender": "male",
+      "bloodType": "B+",
+      "lastDonation": "",
+      "healthStatus": "good",
+      "weight": null,
+      "medicalHistory": "dsf",
+      "city": "saf",
+      "state": "dsaf",
+      "country": "India",
+      "postalCode": "saf",
+      "preferredCenter": "north",
+      "terms": false,
+      "newsletter": false
+    }
   ]
 }

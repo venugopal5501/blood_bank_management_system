@@ -1,6 +1,8 @@
 <template>
   <div id="app">
    <router-view />
+       <RegistrationForm />   <!-- MUST BE HERE -->
+
 
 
   </div>
@@ -8,14 +10,23 @@
 
 <script>
 
-
+import RegistrationForm  from './components/RegistrationForm.vue';
 // import dashboardPage from './components/UserDashboard.vue'
 // import registerPage from './components/MainPage.vue'
 export default {
   name: 'App',
-  
+  components: {
+    RegistrationForm
+  },
+  data() {
+    return {
+      showRegistration: false
+    }
+  }
 }
 </script>
+
+
 
 <style>
 #app {
@@ -24,6 +35,5 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
