@@ -1,5 +1,7 @@
 <template>
     <div>
+        Welcome to User Dashboard, {{ user.username }}!
+        <button @click="logoutUser">Logout</button>
         </div>
     </template>
 
@@ -21,7 +23,7 @@ export default {
     methods: {
         logoutUser() {
             logout();
-            this.$$router.push("/login");
+            this.$router.push("/login");
         }
     }
 }

@@ -1,5 +1,4 @@
 import api from "./api";
-import { jwtDecode } from "jwt-decode";
 
 export async function login(username, password) {
     const response = await api.get(`/users?username=${username}&password=${password}`);
@@ -21,6 +20,6 @@ export function getUser() {
     if(!token) {
         return null;
     }
-    return jwtDecode(token);
+    return JSON.parse(atob(token));
 
 }

@@ -1,26 +1,30 @@
-import {createRouter, createWebHistory} from "vue-router";
-import Login from "./components/Login.vue";
-import Dashboard from "./components/Dashboard.vue";
+import Vue from "vue";
+import Router from "vue-router";
+import Login from "@/components/Login.vue";
+import Dashboard from "@/components/UserDashboard.vue";
 import { getUser } from "@/services/auth";
 
-const routes = [
-    {path: "/login", component: Login},
-    {path: "/dashboard", component: Dashboard, meta: {requiresAuth: true}}
-];
+Vue.use(Router);
 
-const router = createRouter({
-    history: createWebHistory(),
-    routes
+const router = new Router({
+  mode: "history",
+  routes: [
+    { path: "/", redirect: "/login" },
+    { path: "/login", component: Login },
+    {
+      path: "/dashboard",
+      component: Dashboard,
+      meta: { requiresAuth: true }
+    }
+  ]
 });
 
 router.beforeEach((to, from, next) => {
-    if(to.meta.requiresAuth && !getUser())
-    {
-        next("/login");
-    }
-    else {
-        next();
-    }
+  if (to.matched.some(record => record.meta.requiresAuth) && !getUser()) {
+    next("/login");
+  } else {
+    next();
+  }
 });
 
 export default router;

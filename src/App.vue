@@ -1,24 +1,19 @@
 <template>
   <div id="app">
-   <!-- <loginPage />
-   <dashboardPage /> -->
-    <registerPage />
+   <router-view />
+
+
   </div>
 </template>
 
 <script>
 
-// import loginPage from './components/Login.vue'
+
 // import dashboardPage from './components/UserDashboard.vue'
-import registerPage from './components/MainPage.vue'
+// import registerPage from './components/MainPage.vue'
 export default {
   name: 'App',
-  components: {
-    // loginPage,
-    // dashboardPage,
-    registerPage
-
-  }
+  
 }
 </script>
 
