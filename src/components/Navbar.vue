@@ -8,6 +8,7 @@
   <router-link to="/contact">Contact</router-link>
   <a href="#" class="btn" @click.prevent="openRegistration">Donate Blood</a>
   <router-link to="/donars" class="btn">View Donars</router-link>
+  <router-link to="/stocks" class="btn">Stock Inventory</router-link>
   <div class="user-dropdown">
     <a href = "#" @click="toggleDropdown"> {{ usernames }} ⌄</a>
     <div v-if="showDropdown" class="dropdown-menu">

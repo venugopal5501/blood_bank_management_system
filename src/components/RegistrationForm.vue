@@ -276,8 +276,9 @@ export default {
     this.showModal = false;
   },
 
-  nextStep(step) {
-    if (this.validateStep(step)) {
+  async nextStep(step) {
+    const valid = await this.validateStep(step);
+    if (valid) {
       this.currentStep++;
       this.showStep(this.currentStep);
     }

@@ -47,6 +47,27 @@
       "preferredCenter": "north",
       "terms": false,
       "newsletter": false
+    },
+    {
+      "id": "9817",
+      "firstName": "VENUGOPAL V",
+      "lastName": "V",
+      "email": "venugopal.112055@sxcce.edu.in",
+      "phone": "09080368568",
+      "dob": "2000-01-05",
+      "gender": "male",
+      "bloodType": "A+",
+      "lastDonation": "",
+      "healthStatus": "excellent",
+      "weight": "50",
+      "medicalHistory": "vue.runtime.esm.js:3065 \n TypeError: _vm.nextStep is not a function\n    at click (RegistrationForm.vue:247:1)\n",
+      "city": "Chennai",
+      "state": "TAMIL NADU",
+      "country": "India",
+      "postalCode": "600097",
+      "preferredCenter": "central",
+      "terms": false,
+      "newsletter": false
     }
   ]
 }

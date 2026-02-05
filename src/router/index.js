@@ -5,6 +5,7 @@ import Dashboard from "@/components/UserDashboard.vue";
 import { getUser } from "@/services/auth";
 import Register from "@/components/RegistrationPage.vue"
 import UpdateDonarDetails from "@/components/UpdateDonarDetails.vue"
+import StockInventory from "@/components/StockInventory.vue";
 
 Vue.use(Router);
 
@@ -25,7 +26,10 @@ const router = new Router({
     {
         path: "/donars",
         component: UpdateDonarDetails,
-        
+    },
+    {
+      path: "/stocks",
+      component: StockInventory,
     }
   ]
 });
