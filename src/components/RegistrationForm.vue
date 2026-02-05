@@ -75,57 +75,153 @@
             <!-- <button class="btn-next" data-next="step2">Next <i class="fas fa-arrow-right"></i></button> -->
           </div>
         </div>
-        
-        <!-- Step 2: Medical & Donation Info -->
+
+        <!-- SINGLE Step 2 container -->
         <div class="form-step" id="step2Form">
           <h3 class="form-title">Medical & Donation Information</h3>
-          
+
           <div class="form-row">
             <div class="form-group required">
-              <label for="bloodType">Blood Type</label>
-              <select id="bloodType" v-model="form.bloodType" required>
-                <option value="" disabled selected>Select your blood type</option>
-                <option value="A+">A+</option>
-                <option value="A-">A-</option>
-                <option value="B+">B+</option>
-                <option value="B-">B-</option>
-                <option value="O+">O+</option>
-                <option value="O-">O-</option>
-                <option value="AB+">AB+</option>
-                <option value="AB-">AB-</option>
-                <option value="unknown">I don't know</option>
+              <label for="donationCategory">Donation category</label>
+              <select id="donationCategory" v-model="form.donationCategory" required>
+                <option value="" disabled>Select your Donation category</option>
+                <option value="Blood">Blood</option>
+                <option value="Organ">Organ</option>
+                <option value="Other">Other</option>
               </select>
             </div>
-            
+          </div>
+
+              <div v-if="form.donationCategory === 'Other'">
+            <div class="form-row">
+              <div class="form-group required">
+              <label for="donationType">Donation</label>
+              <input type="text" id="donationType" v-model="form.bloodType" placeholder="Enter your donation type" required>
+            </div>
+
+              <div class="form-group">
+                <label for="lastDonation">Last Donation Date (if any)</label>
+                <input type="date" id="lastDonation" v-model="form.lastDonation">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group required">
+                <label for="healthStatus">Current Health Status</label>
+                <select id="healthStatus" v-model="form.healthStatus" required>
+                  <option value="" disabled>Select your health status</option>
+                  <option value="excellent">Excellent</option>
+                  <option value="good">Good</option>
+                  <option value="fair">Fair</option>
+                  <option value="recent-illness">Recently recovered from illness</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="weight">Weight (kg)</label>
+                <input type="number" id="weight" v-model="form.weight" min="45" placeholder="Minimum 45 kg required">
+              </div>
+            </div>
+
             <div class="form-group">
-              <label for="lastDonation">Last Donation Date (if any)</label>
-              <input type="date" id="lastDonation" v-model="form.lastDonation">
+              <label for="medicalHistory">Medical History (if any)</label>
+              <textarea id="medicalHistory" rows="3" v-model="form.medicalHistory" placeholder="Any relevant medical conditions, surgeries, or allergies"></textarea>
             </div>
           </div>
-          
-          <div class="form-row">
-            <div class="form-group required">
-              <label for="healthStatus">Current Health Status</label>
-              <select id="healthStatus" v-model="form.healthStatus" required>
-                <option value="" disabled selected>Select your health status</option>
-                <option value="excellent">Excellent</option>
-                <option value="good">Good</option>
-                <option value="fair">Fair</option>
-                <option value="recent-illness">Recently recovered from illness</option>
-              </select>
+
+          <!-- Blood-only fields (rendered when category is Blood) -->
+          <div v-if="form.donationCategory === 'Blood'">
+            <div class="form-row">
+              <div class="form-group required">
+                <label for="bloodType">Blood Type</label>
+                <select id="bloodType" v-model="form.bloodType" required>
+                  <option value="" disabled>Select your blood type</option>
+                  <option value="A+">A+</option>
+                  <option value="A-">A-</option>
+                  <option value="B+">B+</option>
+                  <option value="B-">B-</option>
+                  <option value="O+">O+</option>
+                  <option value="O-">O-</option>
+                  <option value="AB+">AB+</option>
+                  <option value="AB-">AB-</option>
+                  <option value="unknown">I don't know</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="lastDonation">Last Donation Date (if any)</label>
+                <input type="date" id="lastDonation" v-model="form.lastDonation">
+              </div>
             </div>
-            
+
+            <div class="form-row">
+              <div class="form-group required">
+                <label for="healthStatus">Current Health Status</label>
+                <select id="healthStatus" v-model="form.healthStatus" required>
+                  <option value="" disabled>Select your health status</option>
+                  <option value="excellent">Excellent</option>
+                  <option value="good">Good</option>
+                  <option value="fair">Fair</option>
+                  <option value="recent-illness">Recently recovered from illness</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="weight">Weight (kg)</label>
+                <input type="number" id="weight" v-model="form.weight" min="45" placeholder="Minimum 45 kg required">
+              </div>
+            </div>
+
             <div class="form-group">
-              <label for="weight">Weight (kg)</label>
-              <input type="number" id="weight" v-model="form.weight" min="45" placeholder="Minimum 45 kg required">
+              <label for="medicalHistory">Medical History (if any)</label>
+              <textarea id="medicalHistory" rows="3" v-model="form.medicalHistory" placeholder="Any relevant medical conditions, surgeries, or allergies"></textarea>
             </div>
           </div>
-          
-          <div class="form-group">
-            <label for="medicalHistory">Medical History (if any)</label>
-            <textarea id="medicalHistory" rows="3" v-model="form.medicalHistory" placeholder="Any relevant medical conditions, surgeries, or allergies"></textarea>
+
+
+          <div v-if="form.donationCategory === 'Organ'">
+            <div class="form-row">
+              <div class="form-group required">
+                <label for="organName">Organ Name</label>
+                <select id="organName" v-model="form.bloodType" required>
+               <option value="" disabled>Select your organ</option>
+                  <option value="Heart">Heart</option>
+                  <option value="Liver">Liver</option>
+                  <option value="Kidney">Kidney</option>
+                  <option value="Lung">Lung</option>
+                  <option value="I don't know">I don't know</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="lastDonation">Last Donation Date (if any)</label>
+                <input type="date" id="lastDonation" v-model="form.lastDonation">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group required">
+                <label for="healthStatus">Current Health Status</label>
+                <select id="healthStatus" v-model="form.healthStatus" required>
+                  <option value="" disabled>Select your health status</option>
+                  <option value="excellent">Excellent</option>
+                  <option value="good">Good</option>
+                  <option value="fair">Fair</option>
+                  <option value="recent-illness">Recently recovered from illness</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="weight">Weight (kg)</label>
+                <input type="number" id="weight" v-model="form.weight" min="45" placeholder="Minimum 45 kg required">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="medicalHistory">Medical History (if any)</label>
+              <textarea id="medicalHistory" rows="3" v-model="form.medicalHistory" placeholder="Any relevant medical conditions, surgeries, or allergies"></textarea>
+            </div>
           </div>
-          
           <div class="form-navigation">
             <button class="btn-prev" data-prev="step1" @click="prevStep()"><i class="fas fa-arrow-left"></i> Previous</button>
             <button class="btn-next" data-next="step3" @click="nextStep(2)">Next <i class="fas fa-arrow-right"></i></button>
@@ -171,6 +267,8 @@
               <option value="west">West General Hospital</option>
             </select>
           </div>
+
+           <input type="hidden" v-model="form.donationStatus">
           
           <div class="form-navigation">
             <button class="btn-prev" data-prev="step2" @click="prevStep()"><i class="fas fa-arrow-left"></i> Previous</button>
@@ -212,7 +310,9 @@ export default {
       postalCode: '',
       preferredCenter: '',
       terms: false,
-      newsletter: false
+      newsletter: false,
+      donationStatus: 'pending',
+      donationCategory: ''
     },
     errors: '' // store validation messages
   }
@@ -261,7 +361,9 @@ export default {
         postalCode: donor.postalCode || '',
         preferredCenter: donor.preferredCenter || '',
         terms: donor.terms || false,
-        newsletter: donor.newsletter || false
+        newsletter: donor.newsletter || false,
+        donationStatus: donor.donationStatus || 'pending',
+        donationCategory: donor.donationCategory || '',
       }
       this.editing = true
     } else {
@@ -371,7 +473,8 @@ export default {
       postalCode: '',
       preferredCenter: '',
       terms: false,
-      newsletter: false
+      newsletter: false,
+      donationStatus: 'pending'
     }
     this.currentStep = 1
     this.errors = ''

@@ -4,7 +4,7 @@
         <div class="form-header">
             <h1>
                 <i class="fas fa-plus-circle"></i>
-                Add New Inventory
+                {{modalTitle}}
             </h1>
             <p>Select type and enter details to add to inventory</p>
         </div>
@@ -26,15 +26,12 @@
                             id="typeBlood" 
                             name="inventoryType" 
                             value="blood"
+                            v-model="selectedType"
                             @change="onTypeChange('blood')"
                         >
                         <label for="typeBlood" class="radio-label">
                             <div class="radio-icon blood-icon">
                                 <i class="fas fa-tint"></i>
-                            </div>
-                            <div class="radio-content">
-                                <div class="radio-title">Blood</div>
-                                <div class="radio-description">Whole blood, platelets, plasma, red cells</div>
                             </div>
                         </label>
                     </div>
@@ -46,15 +43,13 @@
                             id="typeOrgan" 
                             name="inventoryType" 
                             value="organ"
+                            v-model="selectedType"
                             @change="onTypeChange('organ')"
+                            
                         >
                         <label for="typeOrgan" class="radio-label">
                             <div class="radio-icon organ-icon">
                                 <i class="fas fa-heart"></i>
-                            </div>
-                            <div class="radio-content">
-                                <div class="radio-title">Organ</div>
-                                <div class="radio-description">Heart, kidney, liver, lungs, cornea</div>
                             </div>
                         </label>
                     </div>
@@ -66,6 +61,7 @@
                             id="typeOther" 
                             name="inventoryType" 
                             value="other"
+                            v-model="selectedType"
                             @change="onTypeChange('other')"
                         >
                         <label for="typeOther" class="radio-label">
@@ -215,11 +211,9 @@
 
             <!-- Form Actions -->
             <div class="form-actions">
-                <button type="button" class="btn-cancel" @click="resetForm">
-                    Reset Form
-                </button>
+               
                 <button type="button" class="btn-submit" @click="submitForm" :disabled="!selectedType">
-                    Add to Inventory
+                    Save
                 </button>
             </div>
 
@@ -239,10 +233,15 @@
     </template>
 
     <script>
+    import { createStockInventory } from '@/services/auth';
+    import api from '@/services/api';
+
     export default {
   name: 'StockInventoryModal',
+
   data() {
     return {
+        showModal: false,
       selectedType: '',
       selectedBloodType: '',
       selectedOrganType: '',
@@ -252,12 +251,100 @@
       quantity: null,
       showOtherBloodType: false,
       showOtherOrganType: false,
-      errorMessage: ''
+      errorMessage: '',
+      modalTitle: 'Add New Inventory',
+
     }
   },
+  props: {
+  initialItem: {
+    type: Object,
+    default: null
+  }
+},
+watch: {
+  initialItem: {
+    immediate: true,
+    handler(item) {
+      if (!item) {
+        // clear form for creating new
+        this._editingId = null;
+        this.resetForm();
+        return;
+      }
+      // populate fields
+  
+      this.quantity = item.quantity || null;
+    this.selectedType = item.inventoryType;
+    this.modalTitle = 'Edit Inventory Item';
+      if (this.selectedType === 'blood') {
+        const knownBlood = ['A+','A-','B+','B-','O+','O-','AB+','AB-'];
+        if (knownBlood.includes(item.itemType)) {
+          this.selectedBloodType = item.itemType;
+          this.showOtherBloodType = false;
+          this.otherBloodTypeValue = '';
+        } else {
+          this.selectedBloodType = 'other';
+          this.showOtherBloodType = true;
+          this.otherBloodTypeValue = item.itemType;
+        }
+      } else if (this.selectedType === 'organ') {
+        const knownOrgans = ['heart','kidney','liver','lung','pancreas','cornea','skin','bone'];
+        if (knownOrgans.includes(item.itemType)) {
+          this.selectedOrganType = item.itemType;
+          this.showOtherOrganType = false;
+          this.otherOrganTypeValue = '';
+        } else {
+          this.selectedOrganType = 'other';
+          this.showOtherOrganType = true;
+          this.otherOrganTypeValue = item.itemType;
+        }
+      } else if (this.selectedType === 'other') {
+        this.selectedOtherType = item.itemType || '';
+      }
+
+      // keep id for updates
+      this._editingId = item.id || null;
+    }
+  }
+},
+  computed: {
+  form() {
+    let itemType = '';
+
+    if (this.selectedType === 'blood') {
+      itemType =
+        this.selectedBloodType === 'other'
+          ? this.otherBloodTypeValue
+          : this.selectedBloodType;
+    }
+
+    if (this.selectedType === 'organ') {
+      itemType =
+        this.selectedOrganType === 'other'
+          ? this.otherOrganTypeValue
+          : this.selectedOrganType;
+    }
+
+    if (this.selectedType === 'other') {
+      itemType = this.selectedOtherType;
+    }
+
+    return {
+      inventoryType: this.selectedType,
+      itemType: itemType,
+      quantity: this.quantity
+    };
+  }
+},
   methods: {
     closeModal() {
       this.$emit('close');
+    },
+    openModals(stocks) {
+        this.selectedBloodType = stocks && stocks.inventoryType;
+        this.showModal = true;
+        
     },
     onTypeChange(type) {
       this.selectedType = type;
@@ -324,23 +411,39 @@
 
       return true;
     },
-    submitForm() {
-      if (this.validateForm()) {
-        this.errorMessage = '';
-        console.log('Form submitted:', {
-          type: this.selectedType,
-          bloodType: this.selectedBloodType,
-          otherBloodType: this.otherBloodTypeValue,
-          organType: this.selectedOrganType,
-          otherOrganType: this.otherOrganTypeValue,
-          otherType: this.selectedOtherType,
-          quantity: this.quantity
-        });
-        // TODO: Send to API
-        alert('Item added successfully!');
-        this.resetForm();
-      }
-    },
+        async submitForm() {
+            if (!this.validateForm()) return false;
+            this.errorMessage = '';
+
+            // build payload and include createdAt
+            const payload = {
+                ...this.form,
+                createdAt: new Date().toISOString()
+            };
+
+            try {
+                let result;
+                if (this._editingId) {
+                    // update existing item
+                    const resp = await api.put(`stockInventory/${this._editingId}`, payload);
+                    result = resp.data;
+                } else {
+                    // create new item
+                    result = await createStockInventory(payload);
+                }
+
+                // emit the created/updated item so parent can refresh/replace
+                this.$emit('inventory-added', result);
+                // close and reset
+                this.closeModal();
+                this.resetForm();
+                this._editingId = null;
+                return result;
+            } catch (error) {
+                this.errorMessage = (error && error.message) ? error.message : 'Failed to save inventory';
+                return false;
+            }
+        },
     resetForm() {
       this.selectedType = '';
       this.selectedBloodType = '';
@@ -351,7 +454,8 @@
       this.quantity = null;
       this.showOtherBloodType = false;
       this.showOtherOrganType = false;
-      this.errorMessage = '';
+            this.errorMessage = '';
+            this.modalTitle = 'Add New Inventory';
     }
   }
 }

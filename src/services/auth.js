@@ -51,3 +51,21 @@ export async function fetchAllDonarDetails() {
     const response = await api.get(`registeredDonars`);
     return response.data;
 }
+
+export async function createStockInventory(formData) {
+    const response = await api.post(`stockInventory`,{
+        ...formData,
+    });
+    return response.data;
+}
+
+export async function fetchAllStockInventory() {
+    const response = await api.get(`stockInventory`);
+    return response.data;
+}
+
+export async function updateStockInventory(formData) {
+     if (formData.id) {
+          await api.put(`/stockInventory/${formData.id}`, { ...formData })
+    } 
+}

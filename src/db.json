@@ -17,6 +17,12 @@
       "username": "venugopal.01",
       "password": "Venugopal@123",
       "role": "user"
+    },
+    {
+      "id": "662e",
+      "username": "grows",
+      "password": "grows",
+      "role": "user"
     }
   ],
   "posts": [
@@ -28,7 +34,7 @@
   ],
   "registeredDonars": [
     {
-      "id": "f6b6",
+      "id": "5022",
       "firstName": "venugopal",
       "lastName": "v",
       "email": "venugopall.venast@digitalsoftwareinc.in",
@@ -37,37 +43,72 @@
       "gender": "male",
       "bloodType": "B+",
       "lastDonation": "",
-      "healthStatus": "good",
-      "weight": null,
-      "medicalHistory": "dsf",
+      "healthStatus": "excellent",
+      "weight": "60",
+      "medicalHistory": "      donationStatus: 'pending'\n",
       "city": "saf",
       "state": "dsaf",
       "country": "India",
       "postalCode": "saf",
       "preferredCenter": "north",
       "terms": false,
-      "newsletter": false
+      "newsletter": false,
+      "donationStatus": "pending"
     },
     {
-      "id": "9817",
-      "firstName": "VENUGOPAL V",
-      "lastName": "V",
-      "email": "venugopal.112055@sxcce.edu.in",
-      "phone": "09080368568",
-      "dob": "2000-01-05",
+      "id": "a207",
+      "firstName": "venugopal",
+      "lastName": "v",
+      "email": "venugopall.venast@digitalsoftwareinc.in",
+      "phone": "1234",
+      "dob": "2003-01-04",
       "gender": "male",
       "bloodType": "A+",
       "lastDonation": "",
       "healthStatus": "excellent",
-      "weight": "50",
-      "medicalHistory": "vue.runtime.esm.js:3065 \n TypeError: _vm.nextStep is not a function\n    at click (RegistrationForm.vue:247:1)\n",
-      "city": "Chennai",
-      "state": "TAMIL NADU",
+      "weight": "70",
+      "medicalHistory": "registerDonar",
+      "city": "saf",
+      "state": "dsaf",
       "country": "India",
-      "postalCode": "600097",
+      "postalCode": "saf",
       "preferredCenter": "central",
       "terms": false,
-      "newsletter": false
+      "newsletter": false,
+      "donationStatus": "pending",
+      "donationCategory": "Blood"
+    },
+    {
+      "id": "d2a6",
+      "firstName": "venugopal",
+      "lastName": "v",
+      "email": "venugopall.venast@digitalsoftwareinc.in",
+      "phone": "112061",
+      "dob": "2003-01-04",
+      "gender": "male",
+      "bloodType": "bloods",
+      "lastDonation": "",
+      "healthStatus": "excellent",
+      "weight": "90",
+      "medicalHistory": "Donation",
+      "city": "saf",
+      "state": "dsaf",
+      "country": "India",
+      "postalCode": "saf",
+      "preferredCenter": "central",
+      "terms": false,
+      "newsletter": false,
+      "donationStatus": "pending",
+      "donationCategory": "Other"
+    }
+  ],
+  "stockInventory": [
+    {
+      "id": "4a3d",
+      "inventoryType": "blood",
+      "itemType": "A+",
+      "quantity": 12,
+      "createdAt": "2026-02-05T10:48:42.791Z"
     }
   ]
 }

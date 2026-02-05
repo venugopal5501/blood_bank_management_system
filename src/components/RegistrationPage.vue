@@ -1,13 +1,39 @@
 <template>
-    <div>
-        <h2>Register</h2>
-        <input v-model="username" placeholder="Username" />
-        <input v-model="password" type="password" placeholder="Password" />
-        <input v-model="confirmPassword" type="password" placeholder="Confirm Password" />
+   
+        
+  <div class="login-container">
+    <div class="login-image">
+        <h1 style="position: absolute;top: 15%">Blood & Organ Donation Manangement System</h1>
+      <img src="@/assets/banner.png" alt="Login Image" />
+    </div>
+    <div class="login-form">
+      <div class="login-card">
+        <h2 style="    margin-bottom: 10%;">Create Account</h2>
+<p v-if="error" class="error">{{ error }}</p>
+        <input
+          v-model="username"
+          type="text"
+          placeholder="Username"
+        />
+
+        <input
+          v-model="password"
+          type="password"
+          placeholder="Password"
+        />
+
+         <input v-model="confirmPassword" type="password" placeholder="Confirm Password" />
+
+
         <button @click="handleRegister">Register</button>
-        <p v-if="error" class="error">{{ error }}</p>
-        </div>
+
+        
+      </div>
+    </div>
+  </div>
+  
 </template>
+
 
 <script>
 import { register } from '@/services/auth';

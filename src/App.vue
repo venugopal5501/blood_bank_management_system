@@ -1,22 +1,22 @@
 <template>
   <div id="app">
-   <router-view />
-       <RegistrationForm />   <!-- MUST BE HERE -->
-
-
-
+    
+    <router-view />   
+     
+    <RegistrationForm />
+    
   </div>
 </template>
-
 <script>
 
-import RegistrationForm  from './components/RegistrationForm.vue';
-// import dashboardPage from './components/UserDashboard.vue'
-// import registerPage from './components/MainPage.vue'
+import RegistrationForm from './components/RegistrationForm.vue';
 export default {
   name: 'App',
   components: {
-    RegistrationForm
+    RegistrationForm,
+  },
+  async mounted() {
+    await this.$store.dispatch('loadStock');
   },
   data() {
     return {
@@ -25,8 +25,6 @@ export default {
   }
 }
 </script>
-
-
 
 <style>
 #app {
