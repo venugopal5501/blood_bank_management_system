@@ -42,7 +42,6 @@ export default {
                 this.error = "Please enter password!";
                 return;
             }
-
             try {
                 await login(this.username, this.password);
                 this.$router.push("/dashboard");

@@ -1,13 +1,9 @@
 <template>
   <div class="dashboard-page">
     <Navbar />
-
-    <!-- Background image -->
     <div class="bg-image"></div>
-
-    <!-- Centered card buttons -->
     <div class="card-buttons">
-        <h1 style="position: absolute; top: -214%;color: #535151">Blood & Organ Dontation Manangement System</h1>
+      <h1 style="position: absolute; top: -214%;color: #535151">Blood & Organ Dontation Manangement System</h1>
       <a href="#" class="card" @click.prevent="$bus.$emit('open-registration')">
         <i class="fa-solid fa-hand-holding-droplet"></i>
         <p>Donate Registration</p>
@@ -32,27 +28,21 @@ export default {
 </script>
 
 <style scoped>
-@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
-
 .dashboard-page {
   position: relative;
   min-height: 100vh;
 }
 
-
-
-/* Centered card buttons */
 .card-buttons {
   position: absolute;
-  top: 50%; /* vertically center */
-  left: 50%; /* horizontally center */
-  transform: translate(-50%, -50%); /* true center */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   display: flex;
-  gap: 100px; /* space between buttons */
+  gap: 100px;
   z-index: 10;
 }
 
-/* Card style */
 .card {
   background: #836f6fad;
   color: white;
@@ -64,7 +54,7 @@ export default {
   text-decoration: none;
   display: flex;
   flex-direction: column;
-  justify-content: center; /* center content vertically */
+  justify-content: center;
   align-items: center;
   transition: transform 0.3s, box-shadow 0.3s;
 }
@@ -83,13 +73,5 @@ export default {
   transform: translateY(-5px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
   cursor: pointer;
-}
-
-
-@media (max-width: 600px) {
-  .card-buttons {
-    flex-direction: column;
-    transform: translate(-50%, -50%); /* stays centered */
-  }
 }
 </style>

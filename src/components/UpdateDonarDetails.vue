@@ -1,17 +1,19 @@
 <template>
   <div class="donors-container">
-<Navbar />
-    <!-- Search Filters -->
+    <Navbar />
+    <h1>Donar Details</h1>
     <div class="search-filters">
       <input type="text" v-model="searchCity" placeholder="Search by city" />
-      <select v-model="searchBlood">
-        <option value="">All Blood Types</option>
-        <option v-for="type in bloodTypes" :key="type" :value="type">{{ type }}</option>
-      </select>
+      <input type="text" v-model="searchBlood" placeholder="Search by blood/organ " />
       <button @click="applyFilters">Search</button>
     </div>
 
-    <!-- Donors Table -->
+    <div class="page-size-selector">
+      <select id="pageSize" v-model.number="pageSize" @change="currentPage = 1">
+        <option v-for="size in pageSizes" :key="size" :value="size">{{ size }}</option>
+      </select>
+    </div>
+
     <div v-if="filteredDonors.length" class="table-wrapper">
       <table class="donors-table">
         <thead>
@@ -27,19 +29,31 @@
         </thead>
         <tbody>
           <tr v-for="(donor, index) in paginatedDonors" :key="donor.id">
-            <td>{{ index + 1 + (currentPage-1)*pageSize }}</td>
+            <td>{{ index + 1 + (currentPage - 1) * pageSize }}</td>
             <td>{{ donor.firstName }} {{ donor.lastName }}</td>
             <td>{{ calculateAge(donor.dob) }}</td>
             <td>{{ donor.city }}</td>
             <td>
               <span class="blood-badge">{{ donor.bloodType }}</span>
             </td>
-            <td class="status-cell"> <span v-if="donor.donationStatus === 'pending'" @click="toggleDonationStatus(donor)" class="status-emoji" title="Pending">⏳</span> <span v-else-if="donor.donationStatus === 'completed' || donor.donationStatus === 'done'" @click="toggleDonationStatus(donor)" class="status-emoji" title="Completed">✅</span> </td> <td class="actions"> <button class="icon edit" @click="editDonor(donor)" title="Edit"> ✎ </button> <button class="icon delete" @click="deleteDonor(donor)" title="Delete"> 🗑 </button> </td>
+            <td class="status-cell">
+              <span v-if="donor.donationStatus === 'pending'" @click="toggleDonationStatus(donor)" class="status-emoji"
+                title="Pending">⏳</span>
+              <span v-else-if="donor.donationStatus === 'completed' || donor.donationStatus === 'done'"
+                @click="toggleDonationStatus(donor)" class="status-emoji" title="Completed">✅</span>
+            </td>
+            <td class="actions">
+              <button class="action-btn edit" @click="editDonor(donor)" title="Edit">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="action-btn delete" @click="deleteDonor(donor)" title="Delete">
+                <i class="fas fa-trash"></i>
+              </button>
+            </td>
           </tr>
         </tbody>
       </table>
 
-      <!-- Pagination Controls -->
       <div class="pagination">
         <button :disabled="currentPage === 1" @click="prevPage">‹ Prev</button>
         <span>Page {{ currentPage }} of {{ totalPages }}</span>
@@ -47,7 +61,6 @@
       </div>
     </div>
 
-    <!-- No Results -->
     <div v-else class="empty">No donors found.</div>
   </div>
 </template>
@@ -56,7 +69,6 @@
 import { fetchAllDonarDetails } from '@/services/auth';
 import Navbar from './Navbar.vue';
 import api from '@/services/api';
-
 
 export default {
   name: 'RegisteredDonarsEnhanced',
@@ -71,18 +83,22 @@ export default {
       bloodTypes: ['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-'],
       currentPage: 1,
       pageSize: 5,
+      pageSizes: [5, 10, 15, 20],
     }
   },
   computed: {
     filteredDonors() {
       return this.donors.filter(d => {
         const cityMatch = d.city?.toLowerCase().includes(this.searchCity.toLowerCase());
-        const bloodMatch = this.searchBlood ? d.bloodType === this.searchBlood : true;
+        const bloodMatch = this.searchBlood
+          ? d.bloodType.toLowerCase().includes(this.searchBlood.toLowerCase())
+          : true;
+
         return cityMatch && bloodMatch;
       });
     },
     totalPages() {
-      return Math.ceil(this.filteredDonors.length / this.pageSize);
+      return Math.ceil(this.filteredDonors.length / this.pageSize) || 1;
     },
     paginatedDonors() {
       const start = (this.currentPage - 1) * this.pageSize;
@@ -102,26 +118,17 @@ export default {
     },
     editDonor(donor) {
       if (this.$bus && this.$bus.$emit) {
-        this.$bus.$emit('open-registration', donor)
+        this.$bus.$emit('open-registration', donor);
       } else if (this.$root && this.$root.$emit) {
-        this.$root.$emit('open-registration', donor)
+        this.$root.$emit('open-registration', donor);
       }
     },
     async toggleDonationStatus(donor) {
-      const newStatus =
-        donor.donationStatus === 'pending' ? 'completed' : 'pending';
+      const newStatus = donor.donationStatus === 'pending' ? 'completed' : 'pending';
       const ok = confirm(`Mark as "${newStatus}"?`);
       if (!ok) return;
       try {
         await api.patch(`/registeredDonars/${donor.id}`, { donationStatus: newStatus });
-        this.$store.dispatch('UPDATE_STOCK_COUNT', {
-          itemType: donor.bloodType,
-          change: newStatus === 'completed' ? +1 : -1
-        });
-        await this.$store.dispatch('updateStockCount', {
-          itemType: donor.bloodType,
-          change: newStatus === 'completed' ? +1 : -1
-        });
         donor.donationStatus = newStatus;
       } catch (err) {
         console.error(err);
@@ -134,8 +141,6 @@ export default {
       try {
         if (donor.id) await api.delete(`/registeredDonars/${donor.id}`);
         this.donors = this.donors.filter(d => d.id !== donor.id);
-        if (this.$bus && this.$bus.$emit) this.$bus.$emit('donor-deleted', donor.id);
-        else if (this.$root && this.$root.$emit) this.$root.$emit('donor-deleted', donor.id);
         if (this.currentPage > this.totalPages) this.currentPage = this.totalPages;
       } catch (err) {
         console.error('Failed to delete donor', err);
@@ -145,8 +150,12 @@ export default {
     applyFilters() {
       this.currentPage = 1;
     },
-    prevPage() { if (this.currentPage > 1) this.currentPage--; },
-    nextPage() { if (this.currentPage < this.totalPages) this.currentPage++; }
+    prevPage() {
+      if (this.currentPage > 1) this.currentPage--;
+    },
+    nextPage() {
+      if (this.currentPage < this.totalPages) this.currentPage++;
+    }
   }
 }
 </script>
@@ -159,12 +168,12 @@ export default {
   padding: 0 10px;
 }
 
-/* Search Filters */
 .search-filters {
   display: flex;
   gap: 10px;
-  margin-bottom: 25px;
+  margin-bottom: 15px;
   flex-wrap: wrap;
+  margin-top: 15px;
 }
 
 .search-filters input,
@@ -198,7 +207,21 @@ export default {
   transform: translateY(-2px);
 }
 
-/* Table */
+.page-size-selector {
+  display: flex;
+  align-items: flex-end;
+  justify-content: end;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.page-size-selector select {
+  padding: 4px 8px;
+  font-size: 14px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
 .table-wrapper {
   overflow-x: auto;
 }
@@ -210,7 +233,7 @@ export default {
   background: #fff;
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .donors-table th,
@@ -233,7 +256,6 @@ export default {
   background: #fafafa;
 }
 
-/* Blood badge */
 .blood-badge {
   display: inline-block;
   padding: 4px 10px;
@@ -244,33 +266,6 @@ export default {
   font-size: 13px;
 }
 
-/* Status badge */
-.status-badge {
-  display: inline-block;
-  padding: 4px 10px;
-  border-radius: 12px;
-  font-weight: 500;
-  font-size: 13px;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.status-badge.pending {
-  background: #ff9800;
-  color: #fff;
-}
-
-.status-badge.completed {
-  background: #4caf50;
-  color: #fff;
-}
-
-.status-badge:hover {
-  opacity: 0.85;
-  transform: translateY(-1px);
-}
-
-/* Action buttons */
 .actions .icon {
   background: #fff;
   border: 1px solid #ccc;
@@ -291,7 +286,6 @@ export default {
   border-color: #f44336;
 }
 
-/* Pagination */
 .pagination {
   margin-top: 20px;
   display: flex;
@@ -318,39 +312,10 @@ export default {
   color: white;
 }
 
-/* No results */
 .empty {
   text-align: center;
   color: #999;
   font-size: 16px;
   padding: 30px 0;
-}
-
-/* Responsive */
-@media(max-width: 768px) {
-  .donors-table thead {
-    display: none;
-  }
-
-  .donors-table tbody tr {
-    display: block;
-    margin-bottom: 15px;
-    background: #fff;
-    border-radius: 10px;
-    padding: 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-  }
-
-  .donors-table tbody td {
-    display: flex;
-    justify-content: space-between;
-    padding: 8px 10px;
-    border: none;
-  }
-
-  .donors-table tbody td::before {
-    content: attr(data-label);
-    font-weight: 600;
-  }
 }
 </style>

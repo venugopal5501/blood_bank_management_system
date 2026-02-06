@@ -3,8 +3,8 @@ import Router from "vue-router";
 import Login from "@/components/Login.vue";
 import Dashboard from "@/components/UserDashboard.vue";
 import { getUser } from "@/services/auth";
-import Register from "@/components/RegistrationPage.vue"
-import UpdateDonarDetails from "@/components/UpdateDonarDetails.vue"
+import Register from "@/components/RegistrationPage.vue";
+import UpdateDonarDetails from "@/components/UpdateDonarDetails.vue";
 import StockInventory from "@/components/StockInventory.vue";
 
 Vue.use(Router);
@@ -17,25 +17,25 @@ const router = new Router({
     {
       path: "/dashboard",
       component: Dashboard,
-      meta: { requiresAuth: true }
+      meta: { requiresAuth: true },
     },
     {
-        path: "/register",
-        component: Register
+      path: "/register",
+      component: Register,
     },
     {
-        path: "/donars",
-        component: UpdateDonarDetails,
+      path: "/donars",
+      component: UpdateDonarDetails,
     },
     {
       path: "/stocks",
       component: StockInventory,
-    }
-  ]
+    },
+  ],
 });
 
 router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.requiresAuth) && !getUser()) {
+  if (to.matched.some((record) => record.meta.requiresAuth) && !getUser()) {
     next("/login");
   } else {
     next();
