@@ -69,6 +69,8 @@
 import { fetchAllDonarDetails } from '@/services/auth';
 import Navbar from './Navbar.vue';
 import api from '@/services/api';
+import store from '@/store'; 
+
 
 export default {
   name: 'RegisteredDonarsEnhanced',
@@ -123,19 +125,36 @@ export default {
         this.$root.$emit('open-registration', donor);
       }
     },
-    async toggleDonationStatus(donor) {
-      const newStatus = donor.donationStatus === 'pending' ? 'completed' : 'pending';
-      const ok = confirm(`Mark as "${newStatus}"?`);
-      if (!ok) return;
-      try {
-        await api.patch(`/registeredDonars/${donor.id}`, { donationStatus: newStatus });
-        donor.donationStatus = newStatus;
-      } catch (err) {
-        console.error(err);
-        alert('Update failed');
-      }
-    },
-    async deleteDonor(donor) {
+   async toggleDonationStatus(donor) {
+  const newStatus = donor.donationStatus === 'pending' ? 'completed' : 'pending';
+  const ok = confirm(`Mark as "${newStatus}"?`);
+  if (!ok) return;
+
+  try {
+    // 🔹 Update donor status in DB
+    await api.patch(`/registeredDonars/${donor.id}`, { donationStatus: newStatus });
+
+    // 🔹 Update local donor object
+    donor.donationStatus = newStatus;
+
+    // 🔹 Update stock only if donation completed
+    let change = 0;
+    if (newStatus === 'completed') {
+      // Add donated quantity to stock
+      change = donor.quantity || 1; // adjust if your donor has quantity field
+    } else if (newStatus === 'pending') {
+      // If toggling back to pending, remove quantity from stock
+      change = -(donor.quantity || 1);
+    }
+
+    // 🔹 Call Vuex action to update stock
+    await store.dispatch('updateStockCount', { itemType: donor.bloodType, change });
+
+  } catch (err) {
+    console.error(err);
+    alert('Update failed');
+  }
+},    async deleteDonor(donor) {
       const ok = confirm(`Delete donor ${donor.firstName} ${donor.lastName}?`);
       if (!ok) return;
       try {

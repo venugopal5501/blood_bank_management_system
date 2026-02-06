@@ -34,15 +34,14 @@
   ],
   "registeredDonars": [
     {
-      "id": "01c5",
       "firstName": "VENUGOPAL V",
       "lastName": "V",
-      "email": "venugopal.112055@sxcce.edu.in",
+      "email": "venugopal.112055@sxcce.edu.ins",
       "phone": "09080368568",
       "dob": "1999-01-01",
       "gender": "male",
       "donationCategory": "Blood",
-      "bloodType": "A-",
+      "bloodType": "A+",
       "lastDonation": "",
       "healthStatus": "excellent",
       "weight": "90",
@@ -52,16 +51,17 @@
       "country": "India",
       "postalCode": "600097",
       "preferredCenter": "central",
-      "donationStatus": "pending"
+      "donationStatus": "completed",
+      "id": "01c5"
     }
   ],
   "stockInventory": [
     {
-      "id": "4a3d",
       "inventoryType": "blood",
       "itemType": "A+",
-      "quantity": 12,
-      "createdAt": "2026-02-05T10:48:42.791Z"
+      "quantity": 109,
+      "createdAt": "2026-02-06T04:03:22.477Z",
+      "id": "4a3d"
     }
   ]
 }

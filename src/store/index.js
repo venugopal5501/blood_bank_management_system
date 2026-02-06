@@ -6,7 +6,8 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    stockInventory: []
+    stockInventory: [],
+    totalBlood: 0
   },
 
   mutations: {
@@ -37,7 +38,7 @@ export default new Vuex.Store({
     if (!item) return;
 
     const newQuantity = item.quantity + change;
-
+     
     // 🔹 Update DB
     await api.patch(`/stockInventory/${item.id}`, {
       quantity: newQuantity
@@ -45,13 +46,14 @@ export default new Vuex.Store({
 
     // 🔹 Update Vuex memory
     commit('UPDATE_STOCK_COUNT', { itemType, change });
+    
   }
 },
-getters: {
-    totalBloodCount(state) {
-      return state.stockInventory
-        .filter(item => item.inventoryType === 'blood')
-        .reduce((sum, item) => sum + item.quantity, 0);
-    }
-  }
+// getters: {
+//     totalBloodCount(state) { 
+//       return state.stockInventory
+//         .filter(item => item.inventoryType === 'blood')
+//         .reduce((sum, item) => sum + item.quantity, 0);
+//     }
+//   }
 });

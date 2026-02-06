@@ -9,7 +9,7 @@
         </div>
 
         <div class="total-blood">
-            Total Blood Units: <span class="badge">{{ totalBlood }}</span>
+            Total Blood Units: <span class="badge">{{ totalBloodCount }}</span>
         </div>
 
         <div v-if="showModal" class="modal-overlay" @click.self="closeModal">
@@ -78,8 +78,9 @@ export default {
         }
     },
     computed: {
-        totalBlood() {
-            return this.$store.getters.totalBloodCount;
+        totalBloodCount() {
+            return this.stockItems.filter(item => item.inventoryType === 'blood')
+                .reduce((sum, item) => sum + item.quantity, 0);
         }
     },
     async created() {
@@ -89,8 +90,17 @@ export default {
         openModal() { this.editingItem = null; this.showModal = true; },
         closeModal() { this.showModal = false; },
         onInventoryAdded(item) {
-            this.stockItems = [item].concat(this.stockItems || []);
-            this.showModal = false; this.editingItem = null;
+            if (!item) return;
+
+            const index = this.stockItems.findIndex(i => i.id === item.id);
+            if (index !== -1) {
+                this.$set(this.stockItems, index, item);
+            } else {
+                this.stockItems.push(item);
+            }
+
+            this.showModal = false;
+            this.editingItem = null;
         },
         editItem(item) { this.editingItem = item; this.showModal = true; },
         async deleteItem(item) {
