@@ -103,7 +103,7 @@
               </div>
 
               <div class="form-group">
-                <label for="lastDonation">Last Donation Date (Optional)</label>
+                <label for="lastDonation">Last Donation Date</label>
                 <input type="date" id="lastDonation" v-model="form.lastDonation">
               </div>
 
@@ -525,7 +525,72 @@ export default {
   }
 }
 
+.form-title {
+  color: #333;
+  margin: 0 0 20px 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e9ecef;
+}
 
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: #495057;
+  font-size: 0.9rem;
+  text-align: left;
+}
+
+.form-group.required label::after {
+  content: ' *';
+  color: #dc3545;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #4b9cd9;
+  box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.1);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.form-navigation {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #e9ecef;
+}
 
 .btn-prev,
 .btn-next,

@@ -103,7 +103,7 @@ export default {
       return this.filteredDonors.slice(start, start + this.pageSize);
     }
   },
-  async mounted() {
+  async created() {
     this.donors = await fetchAllDonarDetails();
   },
   methods: {
@@ -201,12 +201,6 @@ export default {
   transition: all 0.2s;
 }
 
-.search-filters input:focus,
-.search-filters select:focus {
-  border-color: #d32f2f;
-  box-shadow: 0 0 5px rgba(211, 47, 47, 0.4);
-}
-
 .search-filters button {
   padding: 10px 18px;
   background-color: #d32f2f;
@@ -235,10 +229,6 @@ export default {
   font-size: 14px;
   border-radius: 6px;
   border: 1px solid #ccc;
-}
-
-.table-wrapper {
-  overflow-x: auto;
 }
 
 .donors-table {

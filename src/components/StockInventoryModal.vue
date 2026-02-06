@@ -439,7 +439,7 @@ export default {
     font-weight: 600;
 }
 
-/* .radio-group {
+.radio-group {
     display: flex;
     gap: 16px;
     flex-wrap: wrap;
@@ -510,6 +510,7 @@ export default {
     font-weight: 500;
     color: #495057;
     font-size: 0.9rem;
+    text-align: left;
 }
 
 .form-group label.required::after {
@@ -535,7 +536,7 @@ input[type="number"]:focus {
     outline: none;
     border-color: #dc3545;
     box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.1);
-} */
+}
 
 select {
     appearance: none;

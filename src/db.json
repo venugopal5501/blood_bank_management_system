@@ -34,8 +34,8 @@
   ],
   "registeredDonars": [
     {
-      "firstName": "VENUGOPAL V",
-      "lastName": "V",
+      "firstName": "VENUGOPAL",
+      "lastName": "v",
       "email": "venugopal.112055@sxcce.edu.ins",
       "phone": "09080368568",
       "dob": "1999-01-01",
@@ -51,7 +51,7 @@
       "country": "India",
       "postalCode": "600097",
       "preferredCenter": "central",
-      "donationStatus": "completed",
+      "donationStatus": "pending",
       "id": "01c5"
     },
     {
@@ -158,15 +158,43 @@
       "postalCode": "saf",
       "preferredCenter": "central",
       "donationStatus": "pending"
+    },
+    {
+      "id": "3240",
+      "firstName": "venugopal",
+      "lastName": "v",
+      "email": "venugopall.venast@digitalsoftwareinc.in",
+      "phone": "09087654321",
+      "dob": "2000-11-11",
+      "gender": "male",
+      "donationCategory": "Blood",
+      "bloodType": "A-",
+      "lastDonation": "",
+      "healthStatus": "excellent",
+      "weight": "70",
+      "medicalHistory": "Last Donation Date (Optional)",
+      "city": "All Blood Types",
+      "state": "dsaf",
+      "country": "India",
+      "postalCode": "saf",
+      "preferredCenter": "central",
+      "donationStatus": "pending"
     }
   ],
   "stockInventory": [
     {
+      "id": "aa52",
       "inventoryType": "blood",
-      "itemType": "A+",
-      "quantity": 128,
-      "createdAt": "2026-02-06T06:57:42.947Z",
-      "id": "4a3d"
+      "itemType": "A-",
+      "quantity": 6,
+      "createdAt": "2026-02-06T07:22:54.820Z"
+    },
+    {
+      "id": "89d6",
+      "inventoryType": "blood",
+      "itemType": "A-",
+      "quantity": 12,
+      "createdAt": "2026-02-06T09:16:44.087Z"
     }
   ]
 }

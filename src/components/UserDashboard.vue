@@ -74,4 +74,11 @@ export default {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
   cursor: pointer;
 }
+
+@media (max-width: 767px) {
+    .card-buttons{
+        flex-direction: column;
+        gap: 70px;
+    }
+}
 </style>
