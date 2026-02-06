@@ -4,7 +4,7 @@
     <div class="bg-image"></div>
     <div class="card-buttons">
       <h1 style="position: absolute; top: -214%;color: #535151">Blood & Organ Dontation Manangement System</h1>
-      <a href="#" class="card" @click.prevent="$bus.$emit('open-registration')">
+      <a href="#" class="card" @click="$bus.$emit('open-registration')">
         <i class="fa-solid fa-hand-holding-droplet"></i>
         <p>Donate Registration</p>
       </a>

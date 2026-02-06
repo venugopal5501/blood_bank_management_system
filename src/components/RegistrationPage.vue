@@ -37,7 +37,7 @@ export default {
         return;
       }
       if (this.password !== this.confirmPassword) {
-        this.error = "Passwords do not match!";
+        this.error = "Password not matched!";
         return;
       }
       try {

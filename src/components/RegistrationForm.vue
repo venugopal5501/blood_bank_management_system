@@ -11,7 +11,7 @@
 
         <div class="modal-body">
           <p v-if="errors" class="error-message">{{ errors }}</p>
-          <div class="form-step" v-show="currentStep === 1">
+          <div class="form-step" v-show="currentStep == 1">
             <h3 class="form-title">Personal Information</h3>
 
             <div class="form-grid">
@@ -58,7 +58,7 @@
             </div>
           </div>
 
-          <div class="form-step" v-show="currentStep === 2">
+          <div class="form-step" v-show="currentStep == 2">
             <h3 class="form-title">Donation Information</h3>
 
             <div class="form-group required">
@@ -139,7 +139,7 @@
           </div>
 
           <!-- Step 3: Location & Preferences -->
-          <div class="form-step" v-show="currentStep === 3">
+          <div class="form-step" v-show="currentStep == 3">
             <h3 class="form-title">Location & Preferences</h3>
 
             <div class="form-grid">
@@ -228,18 +228,10 @@ export default {
     }
   },
   mounted() {
-    if (this.$bus && this.$bus.$on) {
-      this.$bus.$on('open-registration', this.openModal);
-    } else if (this.$root && this.$root.$on) {
-      this.$root.$on('open-registration', this.openModal);
-    }
+    this.$bus.$on('open-registration', this.openModal);
   },
   beforeDestroy() {
-    if (this.$bus && this.$bus.$off) {
-      this.$bus.$off('open-registration', this.openModal);
-    } else if (this.$root && this.$root.$off) {
-      this.$root.$off('open-registration', this.openModal);
-    }
+    this.$bus.$off('open-registration', this.openModal);
   },
   methods: {
     openModal(donor) {
@@ -301,35 +293,82 @@ export default {
       this.errors = '';
 
       if (step === 1) {
-        if (!this.form.firstName) { this.errors = 'First name is required'; return false; }
-        if (!this.form.lastName) { this.errors = 'Last name is required'; return false; }
-        if (!this.form.email) { this.errors = 'Email is required'; return false; }
-        if (!this.form.phone) { this.errors = 'Phone is required'; return false; }
-        if (!this.form.dob) { this.errors = 'Date of Birth is required'; return false; }
+        if (!this.form.firstName) {
+          this.errors = 'First name is required';
+          return false;
+        }
+        if (!this.form.lastName) {
+          this.errors = 'Last name is required';
+          return false;
+        }
+        if (!this.form.email) {
+          this.errors = 'Email is required';
+          return false;
+        }
+        if (!this.form.phone) {
+          this.errors = 'Phone is required';
+          return false;
+        }
+        if (!this.form.dob) {
+          this.errors = 'Date of Birth is required';
+          return false;
+        }
         const age = this.calculateAge(this.form.dob);
-        if (age < 18) { this.errors = 'Minimum age is 18'; return false; }
-        if (!this.form.gender) { this.errors = 'Gender is required'; return false; }
+        if (age < 18) {
+          this.errors = 'You must be at least 18 years old to donate';
+          return false;
+        }
+        if (!this.form.gender) {
+          this.errors = 'Gender is required';
+          return false;
+        }
       }
 
       if (step === 2) {
-        if (!this.form.donationCategory) { this.errors = 'Donation category is required'; return false; }
-        if (!this.form.bloodType) {
-          this.errors = this.form.donationCategory === 'Other'
-            ? 'Donation type is required'
-            : `${this.form.donationCategory === 'Blood' ? 'Blood type' : 'Organ name'} is required`;
+        if (!this.form.donationCategory) 
+        { 
+          this.errors = 'Donation category is required'; 
+          return false; 
+        }
+        if (!this.form.bloodType) 
+        {
+          this.errors = this.form.donationCategory === 'Other' ? 'Donation type is required' : `${this.form.donationCategory === 'Blood' ? 'Blood type' : 'Organ name'} is required`;
           return false;
         }
-        if (!this.form.healthStatus) { this.errors = 'Health status is required'; return false; }
-        if (!this.form.weight) { this.errors = 'Weight is required'; return false; }
-        if (this.form.weight < 45) { this.errors = 'Minimum weight is 45 kg'; return false; }
+        if (!this.form.healthStatus) 
+        { 
+          this.errors = 'Health status is required'; 
+          return false; 
+        }
+        if (!this.form.weight) 
+        { 
+          this.errors = 'Weight is required'; 
+          return false; 
+        }
+        if (this.form.weight < 45) 
+        { 
+          this.errors = 'Minimum weight is 45 kg'; 
+          return false; 
+        }
       }
 
       if (step === 3) {
-        if (!this.form.city) { this.errors = 'City is required'; return false; }
-        if (!this.form.state) { this.errors = 'State is required'; return false; }
-        if (!this.form.country) { this.errors = 'Country is required'; return false; }
+        if (!this.form.city) 
+        { 
+          this.errors = 'City is required'; 
+          return false; 
+        }
+        if (!this.form.state) 
+        { 
+          this.errors = 'State is required'; 
+          return false; 
+        }
+        if (!this.form.country) 
+        { 
+          this.errors = 'Country is required'; 
+          return false; 
+        }
       }
-
       return true;
     },
     async submitForm() {
@@ -345,18 +384,16 @@ export default {
         } else if (this.$root && this.$root.$emit) {
           this.$root.$emit('donor-saved');
         }
-
         this.closeModal();
         this.resetForm();
       } catch (error) {
-        this.errors = error.message || 'Save failed';
+        this.errors = error.message;
       }
     },
     calculateAge(dob) {
-      const birthDate = new Date(dob);
-      const diff = Date.now() - birthDate.getTime();
-      const ageDate = new Date(diff);
-      return Math.abs(ageDate.getUTCFullYear() - 1970);
+      const birthYear = new Date(dob).getFullYear();
+      const currentYear = new Date().getFullYear();
+      return currentYear - birthYear;
     },
     resetForm() {
       this.form = {
@@ -425,7 +462,6 @@ export default {
   transform: translateY(0);
 }
 
-/* ===== HEADER ===== */
 .modal-header {
   background: #dc3545;
   color: white;
@@ -489,77 +525,7 @@ export default {
   }
 }
 
-.form-title {
-  color: #333;
-  margin: 0 0 20px 0;
-  font-size: 1.2rem;
-  font-weight: 600;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #e9ecef;
-}
 
-.form-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-  margin-bottom: 20px;
-}
-
-@media (max-width: 600px) {
-  .form-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-.form-group {
-  margin-bottom: 15px;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 6px;
-  font-weight: 500;
-  color: #495057;
-  font-size: 0.9rem;
-}
-
-.form-group.required label::after {
-  content: ' *';
-  color: #dc3545;
-}
-
-.form-group input,
-.form-group select,
-.form-group textarea {
-  width: 100%;
-  padding: 10px 12px;
-  border: 1px solid #ced4da;
-  border-radius: 6px;
-  font-size: 0.95rem;
-  transition: border-color 0.2s;
-  box-sizing: border-box;
-}
-
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
-  outline: none;
-  border-color: #dc3545;
-  box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.1);
-}
-
-.form-group textarea {
-  resize: vertical;
-  min-height: 80px;
-}
-
-.form-navigation {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 30px;
-  padding-top: 20px;
-  border-top: 1px solid #e9ecef;
-}
 
 .btn-prev,
 .btn-next,

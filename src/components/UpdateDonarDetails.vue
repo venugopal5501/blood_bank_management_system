@@ -36,7 +36,7 @@
             <td>
               <span class="blood-badge">{{ donor.bloodType }}</span>
             </td>
-            <td class="status-cell">
+            <td class="status-cell" style="cursor: pointer;">
               <span v-if="donor.donationStatus === 'pending'" @click="toggleDonationStatus(donor)" class="status-emoji"
                 title="Pending">⏳</span>
               <span v-else-if="donor.donationStatus === 'completed' || donor.donationStatus === 'done'"
@@ -55,9 +55,9 @@
       </table>
 
       <div class="pagination">
-        <button :disabled="currentPage === 1" @click="prevPage">‹ Prev</button>
+        <button :disabled="currentPage == 1" @click="prevPage">‹ Prev</button>
         <span>Page {{ currentPage }} of {{ totalPages }}</span>
-        <button :disabled="currentPage === totalPages" @click="nextPage">Next ›</button>
+        <button :disabled="currentPage == totalPages" @click="nextPage">Next ›</button>
       </div>
     </div>
 
@@ -69,8 +69,7 @@
 import { fetchAllDonarDetails } from '@/services/auth';
 import Navbar from './Navbar.vue';
 import api from '@/services/api';
-import store from '@/store'; 
-
+import store from '@/store';
 
 export default {
   name: 'RegisteredDonarsEnhanced',
@@ -92,10 +91,7 @@ export default {
     filteredDonors() {
       return this.donors.filter(d => {
         const cityMatch = d.city?.toLowerCase().includes(this.searchCity.toLowerCase());
-        const bloodMatch = this.searchBlood
-          ? d.bloodType.toLowerCase().includes(this.searchBlood.toLowerCase())
-          : true;
-
+        const bloodMatch = this.searchBlood ? d.bloodType.toLowerCase().includes(this.searchBlood.toLowerCase()) : true;
         return cityMatch && bloodMatch;
       });
     },
@@ -125,45 +121,45 @@ export default {
         this.$root.$emit('open-registration', donor);
       }
     },
-   async toggleDonationStatus(donor) {
-  const newStatus = donor.donationStatus === 'pending' ? 'completed' : 'pending';
-  const ok = confirm(`Mark as "${newStatus}"?`);
-  if (!ok) return;
+    async toggleDonationStatus(donor) {
+      const newStatus = donor.donationStatus === 'pending' ? 'completed' : 'pending';
+      const ok = confirm(`Mark as "${newStatus}"?`);
+      if (!ok) {
+        return;
+      }
 
-  try {
-    // 🔹 Update donor status in DB
-    await api.patch(`/registeredDonars/${donor.id}`, { donationStatus: newStatus });
-
-    // 🔹 Update local donor object
-    donor.donationStatus = newStatus;
-
-    // 🔹 Update stock only if donation completed
-    let change = 0;
-    if (newStatus === 'completed') {
-      // Add donated quantity to stock
-      change = donor.quantity || 1; // adjust if your donor has quantity field
-    } else if (newStatus === 'pending') {
-      // If toggling back to pending, remove quantity from stock
-      change = -(donor.quantity || 1);
-    }
-
-    // 🔹 Call Vuex action to update stock
-    await store.dispatch('updateStockCount', { itemType: donor.bloodType, change });
-
-  } catch (err) {
-    console.error(err);
-    alert('Update failed');
-  }
-},    async deleteDonor(donor) {
-      const ok = confirm(`Delete donor ${donor.firstName} ${donor.lastName}?`);
-      if (!ok) return;
       try {
-        if (donor.id) await api.delete(`/registeredDonars/${donor.id}`);
-        this.donors = this.donors.filter(d => d.id !== donor.id);
-        if (this.currentPage > this.totalPages) this.currentPage = this.totalPages;
+        await api.patch(`/registeredDonars/${donor.id}`, { donationStatus: newStatus });
+        donor.donationStatus = newStatus;
+        let change = 0;
+        if (newStatus === 'completed') {
+          change = donor.quantity || 1;
+        } else if (newStatus === 'pending') {
+          change = -(donor.quantity || 1);
+        }
+
+        await store.dispatch('updateStockCount', { itemType: donor.bloodType, change });
+
       } catch (err) {
-        console.error('Failed to delete donor', err);
-        alert('Failed to delete donor');
+        console.error(err);
+        alert('Update failed');
+      }
+    },
+    async deleteDonor(donor) {
+      const ok = confirm(`Delete donor ${donor.firstName} ${donor.lastName}?`);
+      if (!ok) {
+        return;
+      }
+      try {
+        if (donor.id) {
+          await api.delete(`/registeredDonars/${donor.id}`);
+          this.donors = this.donors.filter(d => d.id !== donor.id);
+        }
+        if (this.currentPage > this.totalPages) {
+          this.currentPage = this.totalPages;
+        }
+      } catch (err) {
+        console.error(err);
       }
     },
     applyFilters() {

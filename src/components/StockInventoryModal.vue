@@ -151,7 +151,7 @@
 
             <div class="form-actions">
                 <button type="button" class="btn-submit" @click="submitForm" :disabled="!isFormValid">
-                    {{ modalTitle }}
+                   Save
                 </button>
             </div>
         </div>
@@ -184,11 +184,10 @@ export default {
             showOtherBloodType: false,
             showOtherOrganType: false,
             errorMessage: '',
-            modalTitle: 'Add New Inventory',
+            modalTitle: 'Add New Item',
             editingId: null
         }
     },
-
     computed: {
         form() {
             let itemType = '';
@@ -242,7 +241,7 @@ export default {
                 this.editingId = item.id || null;
                 this.quantity = item.quantity || null;
                 this.selectedType = item.inventoryType;
-                this.modalTitle = 'Edit Inventory Item';
+                this.modalTitle = 'Edit Item';
 
                 if (this.selectedType === 'blood') {
                     const knownBlood = ['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-'];
@@ -374,7 +373,7 @@ export default {
             this.showOtherBloodType = false;
             this.showOtherOrganType = false;
             this.errorMessage = '';
-            this.modalTitle = 'Add New Inventory';
+            this.modalTitle = 'Add New Item';
             this.editingId = null;
         }
     }
@@ -440,7 +439,7 @@ export default {
     font-weight: 600;
 }
 
-.radio-group {
+/* .radio-group {
     display: flex;
     gap: 16px;
     flex-wrap: wrap;
@@ -536,7 +535,7 @@ input[type="number"]:focus {
     outline: none;
     border-color: #dc3545;
     box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.1);
-}
+} */
 
 select {
     appearance: none;
