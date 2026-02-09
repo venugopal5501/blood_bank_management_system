@@ -151,7 +151,7 @@
 
             <div class="form-actions">
                 <button type="button" class="btn-submit" @click="submitForm" :disabled="!isFormValid">
-                   Save
+                    Save
                 </button>
             </div>
         </div>
@@ -349,15 +349,17 @@ export default {
                 if (this.editingId) {
                     const resp = await api.put(`stockInventory/${this.editingId}`, payload);
                     result = resp.data;
+                    this.$toast.success("Stock Details Updated Successfully");
                 } else {
                     result = await createStockInventory(payload);
+                    this.$toast.success("Stock Details Added Successfully");
                 }
 
                 this.$emit('inventory-added', result);
                 this.resetForm();
                 return result;
             } catch (error) {
-                this.errorMessage = error.message || 'Failed to save inventory';
+                this.$toast.error(error.message);
                 return false;
             }
         },

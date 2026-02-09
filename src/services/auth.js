@@ -27,6 +27,11 @@ export function getUser() {
   return JSON.parse(atob(token));
 }
 
+export function isAdmin() {
+  var currentUser = getUser();
+  return currentUser && currentUser.role.toLowerCase() == "admin";
+}
+
 export async function register(username, password) {
   const exists = await api.get(`users?username=${username}`);
   if (exists.data.length > 0) {

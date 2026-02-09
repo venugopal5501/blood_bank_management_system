@@ -4,7 +4,7 @@
       "id": "1",
       "username": "admin",
       "password": "admin123",
-      "role": "Admin"
+      "role": "admin"
     },
     {
       "id": "2",
@@ -22,6 +22,30 @@
       "id": "662e",
       "username": "grows",
       "password": "grows",
+      "role": "admin"
+    },
+    {
+      "id": "0af6",
+      "username": "create",
+      "password": "create",
+      "role": "user"
+    },
+    {
+      "id": "3916",
+      "username": "qwerty",
+      "password": "qwerty",
+      "role": "user"
+    },
+    {
+      "id": "2d83",
+      "username": "demo123",
+      "password": "demo",
+      "role": "user"
+    },
+    {
+      "id": "bd09",
+      "username": "qaz",
+      "password": "qaz",
       "role": "user"
     }
   ],
@@ -179,15 +203,36 @@
       "postalCode": "saf",
       "preferredCenter": "central",
       "donationStatus": "pending"
+    },
+    {
+      "id": "8da0",
+      "firstName": "VENUGOPAL V",
+      "lastName": "VENUGOPAL",
+      "email": "venugopal.112055@sxcce.edu.in",
+      "phone": "09080368568",
+      "dob": "2000-01-01",
+      "gender": "male",
+      "donationCategory": "Organ",
+      "bloodType": "Heart",
+      "lastDonation": "2026-01-02",
+      "healthStatus": "excellent",
+      "weight": "45",
+      "medicalHistory": "dseg",
+      "city": "Chennai",
+      "state": "TAMIL NADU",
+      "country": "India",
+      "postalCode": "600097",
+      "preferredCenter": "north",
+      "donationStatus": "pending"
     }
   ],
   "stockInventory": [
     {
-      "id": "aa52",
       "inventoryType": "blood",
       "itemType": "A-",
-      "quantity": 6,
-      "createdAt": "2026-02-06T07:22:54.820Z"
+      "quantity": 12,
+      "createdAt": "2026-02-09T03:23:03.606Z",
+      "id": "aa52"
     },
     {
       "id": "89d6",
@@ -195,6 +240,13 @@
       "itemType": "A-",
       "quantity": 12,
       "createdAt": "2026-02-06T09:16:44.087Z"
+    },
+    {
+      "id": "87be",
+      "inventoryType": "blood",
+      "itemType": "B+",
+      "quantity": 12,
+      "createdAt": "2026-02-09T03:22:04.077Z"
     }
   ]
 }

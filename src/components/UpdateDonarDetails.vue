@@ -271,26 +271,6 @@ export default {
   font-size: 13px;
 }
 
-.actions .icon {
-  background: #fff;
-  border: 1px solid #ccc;
-  padding: 5px 8px;
-  margin-right: 5px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.actions .icon.edit:hover {
-  background: #e3f2fd;
-  border-color: #2196f3;
-}
-
-.actions .icon.delete:hover {
-  background: #ffebee;
-  border-color: #f44336;
-}
-
 .pagination {
   margin-top: 20px;
   display: flex;

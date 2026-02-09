@@ -18,16 +18,13 @@
     max-width: 400px;
 }
 
-/* Right side form */
 .login-form {
     flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    /* center the card */
 }
 
-/* Card wrapper */
 .login-card {
     width: 100%;
     max-width: 400px;
@@ -84,7 +81,6 @@
     text-align: center;
 }
 
-/* Mobile Responsive */
 @media (max-width: 768px) {
     .login-container {
         flex-direction: column;
@@ -267,6 +263,7 @@ nav a.btn::after {
 .actions {
     display: flex;
     gap: 10px;
+    cursor: pointer;
 }
 
 .action-btn {
@@ -364,4 +361,28 @@ nav a.btn::after {
         flex-direction: column;
         gap: 70px;
     }
+}
+
+.badge {
+  background-color: #4caf50;
+  color: #fff;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-weight: 500;
+}
+
+.quantity-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  background-color: #2196f3;
+  color: #fff;
+  border-radius: 12px;
+  font-weight: 500;
+  font-size: 13px;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 8px;
+  align-items: center;
 }

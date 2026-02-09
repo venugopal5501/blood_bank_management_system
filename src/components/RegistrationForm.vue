@@ -168,11 +168,9 @@
               <label for="preferredCenter">Preferred Donation Center (Optional)</label>
               <select id="preferredCenter" v-model="form.preferredCenter">
                 <option value="" selected>Select preferred center</option>
-                <option value="central">Central Blood Bank</option>
-                <option value="north">North City Hospital</option>
-                <option value="south">South Medical Center</option>
-                <option value="east">East Community Clinic</option>
-                <option value="west">West General Hospital</option>
+                <option value="central">Medical Camp</option>
+                <option value="north">Government Hospital</option>
+                <option value="south">Private Hospital</option>
               </select>
             </div>
 
@@ -264,7 +262,6 @@ export default {
       } else {
         this.resetForm();
       }
-
       this.showModal = true;
     },
     closeModal() {
@@ -325,48 +322,40 @@ export default {
       }
 
       if (step === 2) {
-        if (!this.form.donationCategory) 
-        { 
-          this.errors = 'Donation category is required'; 
-          return false; 
+        if (!this.form.donationCategory) {
+          this.errors = 'Donation category is required';
+          return false;
         }
-        if (!this.form.bloodType) 
-        {
+        if (!this.form.bloodType) {
           this.errors = this.form.donationCategory === 'Other' ? 'Donation type is required' : `${this.form.donationCategory === 'Blood' ? 'Blood type' : 'Organ name'} is required`;
           return false;
         }
-        if (!this.form.healthStatus) 
-        { 
-          this.errors = 'Health status is required'; 
-          return false; 
+        if (!this.form.healthStatus) {
+          this.errors = 'Health status is required';
+          return false;
         }
-        if (!this.form.weight) 
-        { 
-          this.errors = 'Weight is required'; 
-          return false; 
+        if (!this.form.weight) {
+          this.errors = 'Weight is required';
+          return false;
         }
-        if (this.form.weight < 45) 
-        { 
-          this.errors = 'Minimum weight is 45 kg'; 
-          return false; 
+        if (this.form.weight < 45) {
+          this.errors = 'Minimum weight is 45 kg';
+          return false;
         }
       }
 
       if (step === 3) {
-        if (!this.form.city) 
-        { 
-          this.errors = 'City is required'; 
-          return false; 
+        if (!this.form.city) {
+          this.errors = 'City is required';
+          return false;
         }
-        if (!this.form.state) 
-        { 
-          this.errors = 'State is required'; 
-          return false; 
+        if (!this.form.state) {
+          this.errors = 'State is required';
+          return false;
         }
-        if (!this.form.country) 
-        { 
-          this.errors = 'Country is required'; 
-          return false; 
+        if (!this.form.country) {
+          this.errors = 'Country is required';
+          return false;
         }
       }
       return true;
@@ -375,19 +364,15 @@ export default {
       try {
         if (this.form.id) {
           await api.put(`/registeredDonars/${this.form.id}`, { ...this.form });
+          this.$toast.success("Donar Details Updated Successfully");
         } else {
           await registerDonar(this.form);
-        }
-
-        if (this.$bus && this.$bus.$emit) {
-          this.$bus.$emit('donor-saved');
-        } else if (this.$root && this.$root.$emit) {
-          this.$root.$emit('donor-saved');
+          this.$toast.success("Donar Details Added Successfully");
         }
         this.closeModal();
         this.resetForm();
       } catch (error) {
-        this.errors = error.message;
+        this.$toast.error(error.message);
       }
     },
     calculateAge(dob) {

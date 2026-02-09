@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <router-view />   
-    <RegistrationForm message = "Donor Registration Form"/>
+    <router-view />
+    <RegistrationForm message="Donor Registration Form" />
   </div>
 </template>
 <script>

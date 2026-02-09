@@ -13,11 +13,9 @@
                 <input v-model="password" type="password" placeholder="Password" />
                 <button @click="handleLogin">Login</button>
                 <p>Don't have an account? <router-link to="/register">Signup</router-link></p>
-
             </div>
         </div>
     </div>
-
 </template>
 
 <script>

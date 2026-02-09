@@ -4,8 +4,8 @@ import Login from "@/components/Login.vue";
 import Dashboard from "@/components/UserDashboard.vue";
 import { getUser } from "@/services/auth";
 import Register from "@/components/RegistrationPage.vue";
-import UpdateDonarDetails from "@/components/UpdateDonarDetails.vue";
-import StockInventory from "@/components/StockInventory.vue";
+import StockInventorys from "../views/StockInventorys.vue";
+import UpdateDonarDetails from "../views/UpdateDashboard.vue";
 
 Vue.use(Router);
 
@@ -29,17 +29,20 @@ const router = new Router({
     },
     {
       path: "/stocks",
-      component: StockInventory,
+      component: StockInventorys,
     },
   ],
 });
 
 router.beforeEach((to, from, next) => {
-  if (to.matched.some((record) => record.meta.requiresAuth) && !getUser()) {
+  const user = getUser();
+  const publicPages = ["/login", "/register"];
+  if (!user && !publicPages.includes(to.path)) {
     next("/login");
   } else {
-    next();
+    next(); 
   }
 });
+
 
 export default router;

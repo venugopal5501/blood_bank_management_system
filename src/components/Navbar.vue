@@ -4,7 +4,6 @@
       <i class="fas fa-home"></i>
       <span>Home</span>
     </router-link>
-
     <div class="user-dropdown">
       <button class="user-btn" @click="toggleDropdown">
         <i class="fas fa-user-circle"></i>

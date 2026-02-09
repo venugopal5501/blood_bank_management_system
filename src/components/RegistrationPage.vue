@@ -42,10 +42,11 @@ export default {
       }
       try {
         await register(this.username, this.password);
+        this.$toast.success("User Created Successfully.");
         this.$router.push("/login");
       }
       catch (error) {
-        this.error = error.message;
+        this.$toast.error(error.message);
       }
     }
   }

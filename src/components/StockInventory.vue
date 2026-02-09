@@ -8,14 +8,9 @@
       </button>
     </div>
 
-    <CountCards class = "hai" v-bind:bloodCount = "totalBloodCount"/>
-      
-    <slot></slot>
-
-     
-    <!-- <div class="total-blood">
+    <div class="total-blood">
       Total Blood Units: <span class="badge">{{ totalBloodCount }}</span>
-    </div> -->
+    </div>
 
     <div v-if="showModal" class="modal-overlay" @click.self="closeModal">
       <div class="modal-content">
@@ -69,10 +64,10 @@
 import StockInventoryModal from './StockInventoryModal.vue';
 import api from '@/services/api';
 import Navbar from './Navbar.vue';
-import CountCards from '@/components/CountCards.vue'
+// import CountCards from '@/components/CountCards.vue'
 export default {
   name: "StockInventory",
-  components: { StockInventoryModal, Navbar, CountCards },
+  components: { StockInventoryModal, Navbar },
   data() {
     return {
       showModal: false,

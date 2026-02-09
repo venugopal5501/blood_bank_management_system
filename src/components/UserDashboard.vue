@@ -1,7 +1,6 @@
-<template  v-slot="{ bloodCount }">
+<template v-slot="{ bloodCount }">
   <div class="dashboard-page">
     <Navbar />
-    <CountCards v-bind:bloodCount = "totalBloodCount"/>
     <div class="bg-image"></div>
     <div class="card-buttons">
       <h1 style="position: absolute; top: -214%;color: #535151">Blood & Organ Dontation Manangement System</h1>
@@ -13,7 +12,7 @@
         <i class="fa-solid fa-users"></i>
         <p>View Donors</p>
       </router-link>
-      <router-link to="/stocks" class="card">
+      <router-link v-if="currentUser" to="/stocks" class="card">
         <i class="fa-solid fa-boxes-stacked"></i>
         <p>Stock Inventory</p>
       </router-link>
@@ -23,9 +22,19 @@
 
 <script>
 import Navbar from '@/components/Navbar.vue';
+import { isAdmin } from '@/services/auth';
 export default {
-  components: { Navbar
-   },
+  components: {
+    Navbar
+  },
+  data() {
+    return {
+      currentUser: false
+    }
+  },
+  created() {
+    this.currentUser = isAdmin();
+  }
 };
 </script>
 
