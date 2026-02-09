@@ -124,7 +124,7 @@
       "country": "India",
       "postalCode": "626123",
       "preferredCenter": "central",
-      "donationStatus": "completed"
+      "donationStatus": "pending"
     },
     {
       "id": "89e4",
@@ -215,7 +215,7 @@
     {
       "inventoryType": "blood",
       "itemType": "A+",
-      "quantity": 12,
+      "quantity": 11,
       "createdAt": "2026-02-09T07:19:38.839Z",
       "id": "aa52"
     },
@@ -236,7 +236,7 @@
     {
       "inventoryType": "organ",
       "itemType": "heart",
-      "quantity": 12,
+      "quantity": 11,
       "createdAt": "2026-02-09T07:31:45.331Z",
       "id": "0410"
     },
