@@ -8,6 +8,7 @@
         <i class="fas fa-plus"></i> Add New Item
       </button>
     </div>
+
     <div style="display: flex;justify-content: center; gap :5%">
       <div class="total-blood">
         Total Blood Units: <span class="badge">{{ totalBloodCount }}</span>
@@ -19,7 +20,9 @@
         Others: <span class="badge">{{ totalOtherCount }}</span>
       </div>
     </div>
-    <PageSizeSelector v-model="pageSize" :sizes="pageSizes" />
+
+    <PageSizeSelector v-model="pageSize" @input="pageSize = $event" :sizes="pageSizes" />
+
     <DataTable :headers="tableHeaders" :rows="tableRows">
       <template v-slot:actions="{ row }">
         <div class="action-buttons">
@@ -71,10 +74,8 @@ export default {
     return {
       showModal: false,
       editingItem: null,
-
       stockItems: [],
       totalItems: 0,
-
       currentPage: 1,
       pageSize: 5,
       pageSizes: [5, 10, 15, 20]
@@ -83,7 +84,9 @@ export default {
 
   computed: {
     totalPages() {
-      if (!this.totalItems || !this.pageSize) return 1
+      if (!this.totalItems || !this.pageSize) {
+        return 1
+      }
       return Math.max(1, Math.ceil(this.totalItems / this.pageSize))
     },
     totalBloodCount() {

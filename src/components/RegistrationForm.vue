@@ -138,7 +138,6 @@
             </div>
           </div>
 
-          <!-- Step 3: Location & Preferences -->
           <div class="form-step" v-show="currentStep == 3">
             <h3 class="form-title">Location & Preferences</h3>
 
@@ -149,8 +148,8 @@
               </div>
 
               <div class="form-group required">
-                <label for="state">State/Province</label>
-                <input type="text" id="state" v-model="form.state" placeholder="Enter state/province">
+                <label for="state">State</label>
+                <input type="text" id="state" v-model="form.state" placeholder="Enter state">
               </div>
 
               <div class="form-group required">

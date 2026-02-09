@@ -87,7 +87,8 @@ export default {
                 { label: 'Name', key: 'Name' },
                 { label: 'Age', key: 'Age' },
                 { label: 'City', key: 'City' },
-                { label: 'Blood Type', key: 'BloodType' }
+                { label: 'Blood/Organ', key: 'BloodType' },
+                { label: 'Phone Number', key: 'phone' }
             ];
 
             if (this.currentUser) {
@@ -116,19 +117,15 @@ export default {
     },
     methods: {
         calculateAge(dob) {
-            if (!dob) return '-';
-            const birthDate = new Date(dob);
-            const ageDifMs = Date.now() - birthDate.getTime();
-            const ageDate = new Date(ageDifMs);
-            return Math.abs(ageDate.getUTCFullYear() - 1970);
+            if (!dob) {
+                return '-';
+            }
+            const birthYear = new Date(dob).getFullYear();
+            const currentYear = new Date().getFullYear();
+            return currentYear - birthYear;
         },
         async editDonor(donor) {
-            if (this.$bus && this.$bus.$emit) {
-                this.$bus.$emit('open-registration', donor);
-            } else if (this.$root && this.$root.$emit) {
-                this.$root.$emit('open-registration', donor);
-            }
-
+            this.$bus.$emit('open-registration', donor);
         },
         async toggleDonationStatus(donor) {
             const newStatus = donor.donationStatus === 'pending' ? 'completed' : 'pending';

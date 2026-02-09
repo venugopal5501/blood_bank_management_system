@@ -109,10 +109,9 @@ export default {
   methods: {
     calculateAge(dob) {
       if (!dob) return '-';
-      const birthDate = new Date(dob);
-      const ageDifMs = Date.now() - birthDate.getTime();
-      const ageDate = new Date(ageDifMs);
-      return Math.abs(ageDate.getUTCFullYear() - 1970);
+      const birthYear = new Date(dob).getFullYear();
+      const currentYear = new Date().getFullYear();
+      return currentYear - birthYear;
     },
     editDonor(donor) {
       if (this.$bus && this.$bus.$emit) {

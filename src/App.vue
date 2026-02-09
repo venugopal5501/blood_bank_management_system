@@ -4,8 +4,8 @@
     <RegistrationForm message="Donor Registration Form" />
   </div>
 </template>
-<script>
 
+<script>
 import RegistrationForm from './components/RegistrationForm.vue';
 export default {
   name: 'App',
